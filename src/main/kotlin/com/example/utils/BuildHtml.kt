@@ -32,7 +32,8 @@ fun buildHtml(jsonObject: JsonObject): String {
             }
         }
         if (styleAttributes.isNotEmpty()) {
-            html.append(" style=\"${styleAttributes.joinToString(" ")}\"")
+            val style = " style=\"${styleAttributes.joinToString(" ")}\""
+            html.append(style)
         }
         html.append(">")
         if (innerText != null) {
@@ -57,12 +58,23 @@ fun buildHtml(jsonObject: JsonObject): String {
 fun keyHtmlTransform(key: String): String {
     return when (key) {
         "image" -> "src"
-        "background" -> "style=\"background-color"
-        "width" -> "style=\"width"
-        "height" -> "style=\"height"
-        "align" -> "style=\"text-align"
+        "background" -> "style=background-color"
+        "width" -> "style=width"
+        "height" -> "style=height"
+        "align" -> "style=text-align"
         "text" -> "innerText"
-        "textColor" -> "style=\"color"
+        "textColor" -> "style=color"
+        "border-radius" -> "style=border-radius"
+        "padding" -> "style=padding"
+        "padding-left" -> "style=padding-left"
+        "padding-right" -> "style=padding-right"
+        "padding-bottom" -> "style=padding-bottom"
+        "padding-top" -> "style=padding-top"
+        "margin" -> "style=margin"
+        "margin-left" -> "style=margin-left"
+        "margin-right" -> "style=margin-right"
+        "margin-bottom" -> "style=margin-bottom"
+        "margin-top" -> "style=margin-top"
         else -> ""
     }
 }
@@ -73,6 +85,7 @@ fun typeHtmlTransform(type: String): String {
         "column" -> "div"
         "row" -> "div"
         "image" -> "img"
+        "button" -> "button"
         else -> "div"
     }
 }

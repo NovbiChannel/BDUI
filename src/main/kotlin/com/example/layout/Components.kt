@@ -22,3 +22,6 @@ fun row(modify: Modification = Modify(), vararg children: Component): Component 
 fun image(modify: Modification = Modify(), vararg children: Component): Component {
     return Component("image", modify.toJson(), children.toList())
 }
+fun button(modify: Modification = Modify(), vararg children: Component): Component {
+    return Component("button", modify.toJson(), children.toList())
+}

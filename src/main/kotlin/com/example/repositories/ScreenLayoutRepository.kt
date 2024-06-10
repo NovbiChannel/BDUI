@@ -16,15 +16,17 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
             .background("#ffffff"),
         image(
             Modify()
-                .width(50)
-                .height(50)
+                .width(150)
+                .height(150)
                 .align(Align.CENTER)
+                .borderRadius(15)
                 .image("https://clck.ru/3BBMfo"),
             text(
                 "Заголовок",
-                "#ffffff",
+                "#000000",
                 Modify()
-                    .align(Align.CENTER_HORIZONTAL)
+                    .align(Align.CENTER)
+                    .padding(10, 10, 10, 10)
             )
         ),
         column(
@@ -35,17 +37,19 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
                     .width(Size.MATH_PARENT),
                 text(
                     "Текст в столбце 1",
-                    "#000000",
+                    "#6E5160",
                     Modify()
                         .width(Size.MATH_PARENT)
-                        .background("#ffffff")
+                        .background("#FFC618")
+                        .padding(30)
                 ),
                 text(
                     "Текст в столбце 2",
-                    "#000000",
+                    "#6E5160",
                     Modify()
                         .width(Size.MATH_PARENT)
-                        .background("#ffffff")
+                        .margin(10, 10, 30, 20)
+                        .background("#5E490F")
                 )
             ),
             text(
@@ -54,6 +58,19 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
                 Modify()
                     .width(Size.MATH_PARENT)
                     .background("#ffffff")
+            )
+        ),
+        button(
+            Modify()
+                .width(200)
+                .height(50)
+                .borderRadius(8)
+                .background("#E337ED")
+                .align(Align.CENTER)
+            ,
+            text(
+                "Button",
+                "#000000"
             )
         )
     )
