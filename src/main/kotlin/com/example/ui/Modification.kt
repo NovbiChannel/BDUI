@@ -76,8 +76,8 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
             Align.CENTER -> "center"
             Align.TOP -> "top"
             Align.BOTTOM -> "bottom"
-            Align.CENTER_HORIZONTAL -> "center_x"
-            Align.CENTER_VERTICAL -> "center_y"
+            Align.CENTER_HORIZONTAL -> "center-horizontal"
+            Align.CENTER_VERTICAL -> "center-vertical"
         }
         return this
     }

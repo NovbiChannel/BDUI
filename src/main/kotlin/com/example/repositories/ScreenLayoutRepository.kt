@@ -64,9 +64,23 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
                 .background("#E337ED")
                 .align(Align.CENTER)
             ,
-            text(
-                "Button",
-                "#000000"
+            div(
+                Modify()
+                    .width(Size.MATH_PARENT)
+                    .display(Table.ROW),
+                image(
+                    Modify()
+                        .image("https://gdz.ru/img/i/vk-button-icon.svg")
+                        .display(Table.CELL)
+                ),
+                space(Modify().width(30)),
+                text(
+                    "Button",
+                    "#000000",
+                    Modify()
+                        .display(Table.CELL)
+                        .align(Align.CENTER_VERTICAL)
+                )
             )
         )
     )
