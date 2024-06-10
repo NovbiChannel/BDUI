@@ -27,30 +27,22 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
                 Modify()
                     .align(Align.CENTER)
                     .padding(10, 10, 10, 10)
+                    .fontSize(16)
             )
         ),
-        column(
+        div(
             Modify()
-                .width(Size.MATH_PARENT),
-            row(
+                .width(Size.MATH_PARENT)
+                .display(Table.ROOT)
+                .role(Role.TABLE),
+            div(
                 Modify()
-                    .width(Size.MATH_PARENT),
-                text(
-                    "Текст в столбце 1",
-                    "#6E5160",
-                    Modify()
-                        .width(Size.MATH_PARENT)
-                        .background("#FFC618")
-                        .padding(30)
-                ),
-                text(
-                    "Текст в столбце 2",
-                    "#6E5160",
-                    Modify()
-                        .width(Size.MATH_PARENT)
-                        .margin(10, 10, 30, 20)
-                        .background("#5E490F")
-                )
+                    .width(Size.MATH_PARENT)
+                    .display(Table.ROW)
+                    .role(Role.ROW),
+                textColumn("текст в столбце 1"),
+                space(Modify().width(30)),
+                textColumn("текст в столбце 2")
             ),
             text(
                 "Текст в колонке",
@@ -58,6 +50,10 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
                 Modify()
                     .width(Size.MATH_PARENT)
                     .background("#ffffff")
+                    .align(Align.CENTER)
+                    .display(Table.ROW)
+                    .role(Role.ROW)
+                    .padding(10)
             )
         ),
         button(
@@ -82,4 +78,18 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
     override fun getAllScreenLayouts(): List<ScreenLayout> = screenLayouts
 
     override fun getScreenLayoutById(id: Int): ScreenLayout? = screenLayouts.find { it.id == id }
+}
+fun textColumn(text: String): Component {
+    return text(
+        text,
+        "#ffffff",
+        Modify()
+            .width(Size.HALF_PARENT)
+            .align(Align.CENTER)
+            .padding(30, 30, 30, 30)
+            .background("#000000")
+            .display(Table.CELL)
+            .role(Role.CELL)
+            .borderRadius(8)
+    )
 }

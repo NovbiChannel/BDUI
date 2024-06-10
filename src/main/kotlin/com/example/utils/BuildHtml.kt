@@ -57,33 +57,21 @@ fun buildHtml(jsonObject: JsonObject): String {
 
 fun keyHtmlTransform(key: String): String {
     return when (key) {
+        "font-size", "display", "width", "height", "border-radius", "padding", "padding-left", "padding-right",
+        "padding-bottom", "padding-top", "margin", "margin-left", "margin-right", "margin-bottom",
+        "margin-top" -> "style=$key"
         "image" -> "src"
         "background" -> "style=background-color"
-        "width" -> "style=width"
-        "height" -> "style=height"
         "align" -> "style=text-align"
         "text" -> "innerText"
         "textColor" -> "style=color"
-        "border-radius" -> "style=border-radius"
-        "padding" -> "style=padding"
-        "padding-left" -> "style=padding-left"
-        "padding-right" -> "style=padding-right"
-        "padding-bottom" -> "style=padding-bottom"
-        "padding-top" -> "style=padding-top"
-        "margin" -> "style=margin"
-        "margin-left" -> "style=margin-left"
-        "margin-right" -> "style=margin-right"
-        "margin-bottom" -> "style=margin-bottom"
-        "margin-top" -> "style=margin-top"
+        "role" -> key
         else -> ""
     }
 }
 
 fun typeHtmlTransform(type: String): String {
     return when (type) {
-        "div", "text" -> "div"
-        "column" -> "div"
-        "row" -> "div"
         "image" -> "img"
         "button" -> "button"
         else -> "div"

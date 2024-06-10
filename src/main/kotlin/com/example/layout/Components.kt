@@ -13,15 +13,12 @@ fun div(modify: Modification = Modify(), vararg children: Component): Component 
 fun text(text: String, textColor: String, modify: Modification = Modify(), vararg children: Component): Component {
     return Component("text", modify.text(text).textColor(textColor).toJson(), children.toList())
 }
-fun column(modify: Modification = Modify(), vararg children: Component): Component {
-    return Component("column", modify.toJson(), children.toList())
-}
-fun row(modify: Modification = Modify(), vararg children: Component): Component {
-    return Component("row", modify.toJson(), children.toList())
-}
 fun image(modify: Modification = Modify(), vararg children: Component): Component {
     return Component("image", modify.toJson(), children.toList())
 }
 fun button(modify: Modification = Modify(), vararg children: Component): Component {
     return Component("button", modify.toJson(), children.toList())
+}
+fun space(modify: Modification = Modify(), vararg children: Component): Component {
+    return Component("space", modify.toJson(), children.toList())
 }

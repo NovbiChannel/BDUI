@@ -1,8 +1,10 @@
 package com.example.ui
 
 import com.example.layout.Align
+import com.example.layout.Role
 import com.example.layout.Size
 import com.example.layout.Size.*
+import com.example.layout.Table
 import kotlinx.serialization.Serializable
 
 sealed class Modification {
@@ -20,6 +22,9 @@ sealed class Modification {
     abstract fun padding(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null): Modification
     abstract fun margin(margins: Int): Modification
     abstract fun margin(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null): Modification
+    abstract fun fontSize(size: Int): Modification
+    abstract fun display(display: Table): Modification
+    abstract fun role(role: Role): Modification
     abstract fun toJson(): MutableMap<String, String>
 }
 
@@ -43,8 +48,9 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
 
     override fun width(size: Size): Modification {
         config["width"] = when (size) {
-            WRAP_CONTENT -> "-1"
+            WRAP_CONTENT -> "auto"
             MATH_PARENT -> "100%"
+            HALF_PARENT -> "50%"
         }
         return this
     }
@@ -56,8 +62,9 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
 
     override fun height(size: Size): Modification {
         config["height"] = when (size) {
-            WRAP_CONTENT -> "-1"
+            WRAP_CONTENT -> "auto"
             MATH_PARENT -> "100%"
+            HALF_PARENT -> "50%"
         }
         return this
     }
@@ -113,6 +120,31 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
         top?.let { config["margin-top"] = it.toString() + "px" }
         right?.let { config["margin-right"] = it.toString() + "px" }
         bottom?.let { config["margin-bottom"] = it.toString() + "px" }
+        return this
+    }
+
+    override fun fontSize(size: Int): Modification {
+        config["font-size"] = size.toString() + "pt"
+        return this
+    }
+
+    override fun display(display: Table): Modification {
+        config["display"] = when (display) {
+            Table.ROOT -> "table"
+            Table.CELL -> "table-cell"
+            Table.ROW -> "table-row"
+            Table.GRID -> "grid"
+        }
+        return this
+    }
+
+    override fun role(role: Role): Modification {
+        config["role"] = when (role) {
+            Role.BUTTON -> "button"
+            Role.TABLE -> "table"
+            Role.ROW -> "row"
+            Role.CELL -> "cell"
+        }
         return this
     }
 
