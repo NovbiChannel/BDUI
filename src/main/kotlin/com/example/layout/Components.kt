@@ -5,30 +5,20 @@ import com.example.ui.Modify
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Component(val type: String, val modification: Modification = Modify(), val children: List<Component> = emptyList())
-
-fun Component.toJson(): Map<String, Any> {
-    val json = mutableMapOf<String, Any>()
-    json["type"] = type
-    json["modification"] = modification.toJson()
-    if (children.isNotEmpty()) {
-        json["children"] = children.map { it.toJson() }
-    }
-    return json
-}
+data class Component(val type: String, val modification: MutableMap<String, String> = Modify().toJson(), val children: List<Component> = emptyList())
 
 fun div(modify: Modification = Modify(), vararg children: Component): Component {
-    return Component("div", modify, children.toList())
+    return Component("div", modify.toJson(), children.toList())
 }
-fun h(text: String, textColor: String, modify: Modification = Modify(), vararg children: Component): Component {
-    return Component("h_text", modify.text(text).textColor(textColor), children.toList())
-}
-fun p(text: String, textColor: String, modify: Modification = Modify(), vararg children: Component): Component {
-    return Component("p_text", modify.text(text).textColor(textColor), children.toList())
+fun text(text: String, textColor: String, modify: Modification = Modify(), vararg children: Component): Component {
+    return Component("text", modify.text(text).textColor(textColor).toJson(), children.toList())
 }
 fun column(modify: Modification = Modify(), vararg children: Component): Component {
-    return Component("column", modify, children.toList())
+    return Component("column", modify.toJson(), children.toList())
 }
 fun row(modify: Modification = Modify(), vararg children: Component): Component {
-    return Component("row", modify, children.toList())
+    return Component("row", modify.toJson(), children.toList())
+}
+fun image(modify: Modification = Modify(), vararg children: Component): Component {
+    return Component("image", modify.toJson(), children.toList())
 }

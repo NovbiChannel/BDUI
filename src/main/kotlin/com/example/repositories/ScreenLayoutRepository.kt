@@ -3,64 +3,63 @@ package com.example.repositories
 import com.example.layout.*
 import com.example.models.ScreenLayout
 import com.example.ui.Modify
-import javax.swing.GroupLayout
 
 sealed interface ScreenLayoutRepository {
     fun getAllScreenLayouts(): List<ScreenLayout>
     fun getScreenLayoutById(id: Int): ScreenLayout?
 }
 class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
-    private val screenLayouts = listOf(
-        ScreenLayout(1, "Home Screen", homeLayout),
-        ScreenLayout(2, "Login Screen", homeLayout)
-    )
     private val homeLayout = div(
         Modify()
-            .setMaxWidth()
-            .setMaxHeight()
+            .width(Size.MATH_PARENT)
+            .height(Size.MATH_PARENT)
             .background("#ffffff"),
-        div(
+        image(
             Modify()
                 .width(50)
                 .height(50)
-                .align(GroupLayout.Alignment.CENTER)
-                .background("#000000"),
-            h(
+                .align(Align.CENTER)
+                .image("https://clck.ru/3BBMfo"),
+            text(
                 "Заголовок",
                 "#ffffff",
                 Modify()
-                    .align(GroupLayout.Alignment.CENTER)
+                    .align(Align.CENTER_HORIZONTAL)
             )
         ),
         column(
             Modify()
-                .setMaxWidth(),
+                .width(Size.MATH_PARENT),
             row(
                 Modify()
-                    .setMaxWidth(),
-                p(
+                    .width(Size.MATH_PARENT),
+                text(
                     "Текст в столбце 1",
                     "#000000",
                     Modify()
-                        .setMaxWidth()
+                        .width(Size.MATH_PARENT)
                         .background("#ffffff")
                 ),
-                p(
+                text(
                     "Текст в столбце 2",
                     "#000000",
                     Modify()
-                        .setMaxWidth()
+                        .width(Size.MATH_PARENT)
                         .background("#ffffff")
                 )
             ),
-            p(
+            text(
                 "Текст в колонке",
                 "#000000",
                 Modify()
-                    .setMaxWidth()
+                    .width(Size.MATH_PARENT)
                     .background("#ffffff")
             )
         )
+    )
+    private val screenLayouts = listOf(
+        ScreenLayout(1, "Home Screen", homeLayout),
+        ScreenLayout(2, "Login Screen", homeLayout)
     )
 
     override fun getAllScreenLayouts(): List<ScreenLayout> = screenLayouts

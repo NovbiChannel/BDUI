@@ -1,34 +1,37 @@
 package com.example.plugins
 
-import com.example.layout.*
+import com.example.models.ScreenLayout
 import com.example.repositories.ScreenLayoutRepositoryImpl
-import com.example.screens.HomeScreen
 import com.example.services.ScreenLayoutService
-import com.example.ui.Modify
 import com.example.utils.JsonUtils
+import com.example.utils.jsonToHtml
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.json.*
-import javax.swing.GroupLayout
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 fun Application.configureRouting() {
+    val service = ScreenLayoutService(ScreenLayoutRepositoryImpl())
     routing {
-        get("/preview") {
-            call.respondText("Preview", contentType = ContentType.Text.Html)
+        get("/") {
+            val homeScreen = service.getScreenLayoutById(1)
+            val jsonString = JsonUtils.toJson(homeScreen, ScreenLayout.serializer())
+            val htmlDoc = jsonToHtml(jsonString)
+            call.respondText(htmlDoc, contentType = ContentType.Text.Html)
         }
         get("/screen-layouts") {
-            val service = ScreenLayoutService(ScreenLayoutRepositoryImpl())
-            call.respondText(service.getAllScreenLayouts(), contentType = ContentType.Application.Json)
+            val screenLayouts = service.getAllScreenLayouts()
+            val jsonString = JsonUtils.toJson(screenLayouts, ListSerializer(ScreenLayout.serializer()))
+            call.respondText(jsonString, contentType = ContentType.Application.Json)
         }
         get("/screen-layouts/{id}") {
             val id = call.parameters["id"]!!.toInt()
-            val service = ScreenLayoutService(ScreenLayoutRepositoryImpl())
-            call.respondText(service.getScreenLayoutById(id), contentType = ContentType.Application.Json)
-        }
-        get("/div") {
-            call.respondText(HomeScreen.comp.toJson().toString(), contentType = ContentType.Application.Json)
+            val screenLayout = service.getScreenLayoutById(id)
+            val jsonString = JsonUtils.toJson(screenLayout, ScreenLayout.serializer())
+            call.respondText(jsonString, contentType = ContentType.Application.Json)
         }
     }
 }

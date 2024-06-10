@@ -1,50 +1,73 @@
 package com.example.ui
 
-import com.example.layout.Constants.MATCH_PARENT
+import com.example.layout.Align
+import com.example.layout.Size
+import com.example.layout.Size.*
+import kotlinx.serialization.Serializable
 import javax.swing.GroupLayout.Alignment
 
-interface Modification {
-    fun background(color: String): Modification
-    fun width(width: Int): Modification
-    fun setMaxWidth(): Modification
-    fun height(height: Int): Modification
-    fun setMaxHeight(): Modification
-    fun align(alignment: Alignment): Modification
-    fun text(text: String): Modification
-    fun textColor(color: String): Modification
-    fun toJson(): Map<String, Any>
+sealed class Modification {
+    abstract fun background(color: String): Modification
+    abstract fun image(link: String): Modification
+    abstract fun width(width: Int): Modification
+    abstract fun width(size: Size): Modification
+    abstract fun height(height: Int): Modification
+    abstract fun height(size: Size): Modification
+    abstract fun align(align: Align): Modification
+    abstract fun text(text: String): Modification
+    abstract fun textColor(color: String): Modification
+    abstract fun toJson(): MutableMap<String, String>
 }
 
-class Modify : Modification {
-    private val config = mutableMapOf<String, Any>()
+@Serializable
+data class Modify(private val config: MutableMap<String, String> = mutableMapOf()) : Modification() {
 
     override fun background(color: String): Modification {
         config["background"] = color
         return this
     }
 
-    override fun width(width: Int): Modification {
-        config["width"] = width
+    override fun image(link: String): Modification {
+        config["image"] = link
         return this
     }
 
-    override fun setMaxWidth(): Modification {
-        config["width"] = MATCH_PARENT
+    override fun width(width: Int): Modification {
+        config["width"] = width.toString()
+        return this
+    }
+
+    override fun width(size: Size): Modification {
+        config["width"] = when (size) {
+            WRAP_CONTENT -> "-1"
+            MATH_PARENT -> "100%"
+        }
         return this
     }
 
     override fun height(height: Int): Modification {
-        config["height"] = height
+        config["height"] = height.toString()
         return this
     }
 
-    override fun setMaxHeight(): Modification {
-        config["height"] = MATCH_PARENT
+    override fun height(size: Size): Modification {
+        config["height"] = when (size) {
+            WRAP_CONTENT -> "-1"
+            MATH_PARENT -> "100%"
+        }
         return this
     }
 
-    override fun align(alignment: Alignment): Modification {
-        config["align"] = alignment.name
+    override fun align(align: Align): Modification {
+        config["align"] = when (align) {
+            Align.LEFT -> "left"
+            Align.RIGHT -> "right"
+            Align.CENTER -> "center"
+            Align.TOP -> "top"
+            Align.BOTTOM -> "bottom"
+            Align.CENTER_HORIZONTAL -> "center_x"
+            Align.CENTER_VERTICAL -> "center_y"
+        }
         return this
     }
 
@@ -58,5 +81,7 @@ class Modify : Modification {
         return this
     }
 
-    override fun toJson(): Map<String, Any> = config
+    override fun toJson(): MutableMap<String, String> {
+        return config
+    }
 }
