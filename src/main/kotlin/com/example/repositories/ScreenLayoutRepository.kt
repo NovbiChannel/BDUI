@@ -7,20 +7,21 @@ import com.example.ui.Modify
 sealed interface ScreenLayoutRepository {
     fun getAllScreenLayouts(): List<ScreenLayout>
     fun getScreenLayoutById(id: Int): ScreenLayout?
+    fun getTestLayout(): ScreenLayout
 }
 class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
     private val homeLayout = div(
         Modify()
             .width(Size.MATH_PARENT)
             .height(Size.MATH_PARENT)
-            .background("#ffffff"),
+            .background("#3f3f3f"),
         image(
+            url = "https://clck.ru/3BBMfo",
             Modify()
                 .width(150)
                 .height(150)
                 .align(Align.CENTER)
-                .borderRadius(15)
-                .image("https://clck.ru/3BBMfo"),
+                .borderRadius(15),
             text(
                 "Заголовок",
                 "#000000",
@@ -33,12 +34,12 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
         div(
             Modify()
                 .width(Size.MATH_PARENT)
-                .display(Table.ROOT)
+                .display(Display.TABLE)
                 .role(Role.TABLE),
             div(
                 Modify()
                     .width(Size.MATH_PARENT)
-                    .display(Table.ROW)
+                    .display(Display.ROW)
                     .role(Role.ROW),
                 textColumn("текст в столбце 1"),
                 space(Modify().width(30)),
@@ -51,7 +52,7 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
                     .width(Size.MATH_PARENT)
                     .background("#ffffff")
                     .align(Align.CENTER)
-                    .display(Table.ROW)
+                    .display(Display.ROW)
                     .role(Role.ROW)
                     .padding(10)
             )
@@ -60,25 +61,21 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
             Modify()
                 .width(200)
                 .height(50)
-                .borderRadius(8)
-                .background("#E337ED")
+                .borderRadius(10)
+                .background("#4C75A3")
                 .align(Align.CENTER)
+                .onClick("testFun()")
             ,
             div(
                 Modify()
-                    .width(Size.MATH_PARENT)
-                    .display(Table.ROW),
-                image(
-                    Modify()
-                        .image("https://gdz.ru/img/i/vk-button-icon.svg")
-                        .display(Table.CELL)
-                ),
+                    .display(Display.FLEX)
+                    .justifyContent(JustifyContent.CENTER),
+                image(url = "https://gdz.ru/img/i/vk-button-icon.svg"),
                 space(Modify().width(30)),
                 text(
-                    "Button",
-                    "#000000",
+                    "VK ID",
+                    "#ffffff",
                     Modify()
-                        .display(Table.CELL)
                         .align(Align.CENTER_VERTICAL)
                 )
             )
@@ -92,7 +89,37 @@ class ScreenLayoutRepositoryImpl : ScreenLayoutRepository {
     override fun getAllScreenLayouts(): List<ScreenLayout> = screenLayouts
 
     override fun getScreenLayoutById(id: Int): ScreenLayout? = screenLayouts.find { it.id == id }
+    override fun getTestLayout(): ScreenLayout {
+        return ScreenLayout(
+            1,
+            "TestScreen",
+            div(
+                Modify()
+                    .width(Size.MATH_PARENT)
+                    .height(Size.MATH_PARENT)
+                    .background("#D7EEF2"),
+                div(
+                    Modify()
+                        .width(Size.MATH_PARENT)
+                        .display(Display.CELL),
+                    div(
+                        Modify()
+                            .width(50)
+                            .height(50)
+                            .borderRadius(8)
+                            .background("#83898A")),
+                    space(Modify().width(30)),
+                    div(
+                        Modify()
+                            .width(50)
+                            .height(50)
+                            .borderRadius(15)
+                            .background("#83898A")),
+                )
+            ))
+    }
 }
+
 fun textColumn(text: String): Component {
     return text(
         text,
@@ -102,7 +129,7 @@ fun textColumn(text: String): Component {
             .align(Align.CENTER)
             .padding(30, 30, 30, 30)
             .background("#000000")
-            .display(Table.CELL)
+            .display(Display.CELL)
             .role(Role.CELL)
             .borderRadius(8)
     )

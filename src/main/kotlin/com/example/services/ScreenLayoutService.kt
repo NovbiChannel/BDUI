@@ -15,4 +15,7 @@ class ScreenLayoutService(private val repository: ScreenLayoutRepository) {
     fun getScreenLayoutById(id: Int): ScreenLayout {
         return repository.getScreenLayoutById(id)?: ScreenLayout(0, "", Component("null"))
     }
+    fun getTestScreenLayout(): ScreenLayout {
+        return repository.getTestLayout()
+    }
 }

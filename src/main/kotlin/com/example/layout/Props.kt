@@ -6,8 +6,11 @@ enum class Size {
 enum class Align {
     LEFT, RIGHT, CENTER, TOP, BOTTOM, CENTER_HORIZONTAL, CENTER_VERTICAL
 }
-enum class Table {
-    ROOT, CELL, ROW, GRID
+enum class Display {
+    TABLE, CELL, ROW, GRID, FLEX
+}
+enum class JustifyContent {
+    CENTER, START, END, FLEX_START, FLEX_END, LEFT, RIGHT
 }
 enum class Role {
     BUTTON, TABLE, ROW, CELL

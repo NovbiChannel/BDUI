@@ -1,30 +1,26 @@
 package com.example.ui
 
-import com.example.layout.Align
-import com.example.layout.Role
-import com.example.layout.Size
+import com.example.layout.*
 import com.example.layout.Size.*
-import com.example.layout.Table
 import kotlinx.serialization.Serializable
 
 sealed class Modification {
     abstract fun background(color: String): Modification
-    abstract fun image(link: String): Modification
     abstract fun width(width: Int): Modification
     abstract fun width(size: Size): Modification
     abstract fun height(height: Int): Modification
     abstract fun height(size: Size): Modification
     abstract fun align(align: Align): Modification
-    abstract fun text(text: String): Modification
-    abstract fun textColor(color: String): Modification
     abstract fun borderRadius(radius: Int): Modification
     abstract fun padding(paddings: Int): Modification
     abstract fun padding(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null): Modification
     abstract fun margin(margins: Int): Modification
     abstract fun margin(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null): Modification
     abstract fun fontSize(size: Int): Modification
-    abstract fun display(display: Table): Modification
+    abstract fun display(display: Display): Modification
+    abstract fun justifyContent(justifyContent: JustifyContent): Modification
     abstract fun role(role: Role): Modification
+    abstract fun onClick(action: String): Modification
     abstract fun toJson(): MutableMap<String, String>
 }
 
@@ -33,11 +29,6 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
 
     override fun background(color: String): Modification {
         config["background"] = color
-        return this
-    }
-
-    override fun image(link: String): Modification {
-        config["image"] = link
         return this
     }
 
@@ -82,16 +73,6 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
         return this
     }
 
-    override fun text(text: String): Modification {
-        config["text"] = text
-        return this
-    }
-
-    override fun textColor(color: String): Modification {
-        config["textColor"] = color
-        return this
-    }
-
     override fun borderRadius(radius: Int): Modification {
         config["border-radius"] = radius.toString() + "px"
         return this
@@ -128,12 +109,26 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
         return this
     }
 
-    override fun display(display: Table): Modification {
+    override fun display(display: Display): Modification {
         config["display"] = when (display) {
-            Table.ROOT -> "table"
-            Table.CELL -> "table-cell"
-            Table.ROW -> "table-row"
-            Table.GRID -> "grid"
+            Display.TABLE -> "table"
+            Display.CELL -> "table-cell"
+            Display.ROW -> "table-row"
+            Display.GRID -> "grid"
+            Display.FLEX -> "flex"
+        }
+        return this
+    }
+
+    override fun justifyContent(justifyContent: JustifyContent): Modification {
+        config["justify-content"] = when (justifyContent) {
+            JustifyContent.CENTER -> "center"
+            JustifyContent.START -> "start"
+            JustifyContent.END -> "end"
+            JustifyContent.FLEX_START -> "flex-start"
+            JustifyContent.FLEX_END -> "flex-end"
+            JustifyContent.LEFT -> "left"
+            JustifyContent.RIGHT -> "right"
         }
         return this
     }
@@ -145,6 +140,11 @@ data class Modify(private val config: MutableMap<String, String> = mutableMapOf(
             Role.ROW -> "row"
             Role.CELL -> "cell"
         }
+        return this
+    }
+
+    override fun onClick(action: String): Modification {
+        config["onclick"] = action
         return this
     }
 
